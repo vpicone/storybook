@@ -35,7 +35,7 @@ const Item = styled.button(
       borderBottom: `3px solid ${theme.color.secondary}`,
     },
   }),
-  ({ active, theme }) =>
+  ({ active, theme }: any) =>
     active
       ? {
           opacity: 1,
@@ -44,25 +44,25 @@ const Item = styled.button(
       : {}
 );
 
-class Tabs extends Component {
+class Tabs extends Component<any, any> {
   state = {
     active: 0,
   };
 
-  onToggle = index => {
+  onToggle = (index: any) => {
     this.setState({
       active: index,
     });
   };
 
   render() {
-    const { tabs } = this.props;
+    const { tabs } = this.props as any;
     const { active } = this.state;
 
     return (
       <Container>
         <List>
-          {tabs.map((tab, index) => (
+          {tabs.map((tab: any, index: any) => (
             <Item
               // eslint-disable-next-line react/no-array-index-key
               key={index}
@@ -79,7 +79,7 @@ class Tabs extends Component {
   }
 }
 
-Tabs.propTypes = {
+(Tabs as any).propTypes = {
   tabs: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.node,

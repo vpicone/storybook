@@ -17,7 +17,7 @@ const Icon = styled(Icons)(
     width: '12px',
     marginRight: '4px',
   },
-  ({ status, theme }) =>
+  ({ status, theme }: any) =>
     status === 'running'
       ? {
           animation: `${theme.animation.rotate360} 1s linear infinite;`,
@@ -33,7 +33,7 @@ const Violations = styled.span(({ theme }) => ({
   color: theme.color.negative,
 }));
 
-class A11YPanel extends Component {
+class A11YPanel extends Component<any, any> {
   static propTypes = {
     active: PropTypes.bool.isRequired,
     api: PropTypes.shape({
@@ -45,8 +45,8 @@ class A11YPanel extends Component {
 
   state = {
     status: 'ready',
-    passes: [],
-    violations: [],
+    passes: [] as any[],
+    violations: [] as any[],
   };
 
   componentDidMount() {
@@ -56,7 +56,7 @@ class A11YPanel extends Component {
     api.on(EVENTS.RESULT, this.onUpdate);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     // TODO: might be able to remove this
     const { active } = this.props;
 
@@ -72,7 +72,7 @@ class A11YPanel extends Component {
     api.off(EVENTS.RESULT, this.onUpdate);
   }
 
-  onUpdate = ({ passes, violations }) => {
+  onUpdate = ({ passes, violations }: any) => {
     this.setState(
       {
         status: 'ran',
