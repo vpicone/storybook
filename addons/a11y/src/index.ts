@@ -5,7 +5,7 @@ import { stripIndents } from 'common-tags';
 
 import addons, { makeDecorator } from '@storybook/addons';
 import { STORY_RENDERED } from '@storybook/core-events';
-import EVENTS, { PARAM_KEY } from './constants';
+import { EVENTS, PARAM_KEY } from './constants';
 
 const channel = addons.getChannel();
 let progress = Promise.resolve();
@@ -64,10 +64,7 @@ if (module && module.hot && module.hot.decline) {
 }
 
 // TODO: REMOVE at v6.0.0
-export const checkA11y = deprecate(
-  (...args: any[]) => withA11Y(...args),
-  'checkA11y has been replaced with withA11Y'
-);
+export const checkA11y = deprecate((...args: any[]) => withA11Y(...args), 'checkA11y has been replaced with withA11Y');
 
 // TODO: REMOVE at v6.0.0
 export const configureA11y = deprecate(
