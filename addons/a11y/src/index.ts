@@ -1,5 +1,5 @@
 import { document } from 'global';
-import axe from 'axe-core';
+import axe, { AxeResults, RunOptions, Spec } from 'axe-core';
 import deprecate from 'util-deprecate';
 import { stripIndents } from 'common-tags';
 
@@ -9,7 +9,7 @@ import EVENTS, { PARAM_KEY } from './constants';
 
 const channel = addons.getChannel();
 let progress = Promise.resolve();
-let setup: any = {};
+let setup: { config: Spec; options: RunOptions } = { config: {}, options: {} };
 
 const getElement = () => {
   const storyRoot = document.getElementById('story-root');
@@ -20,22 +20,24 @@ const getElement = () => {
   return document.getElementById('root');
 };
 
-const report = (input: any) => {
+const report = (input: AxeResults) => {
   channel.emit(EVENTS.RESULT, input);
 };
 
-const run = (c: any, o: any) => {
+const run = (config: Spec, options: RunOptions) => {
   progress = progress.then(() => {
     axe.reset();
-    if (c) {
-      axe.configure(c);
+    if (config) {
+      axe.configure(config);
     }
     return axe
       .run(
         getElement(),
-        o || {
-          restoreScroll: true,
-        }
+        options ||
+          // tslint:disable-next-line:no-object-literal-type-assertion
+          ({
+            restoreScroll: true,
+          } as RunOptions) // cast to RunOptions is necessary because axe types are not up to date
       )
       .then(report);
   });
@@ -48,7 +50,7 @@ export const withA11Y = makeDecorator({
   allowDeprecatedUsage: false,
 
   wrapper: (getStory, context, opt) => {
-    setup = opt.parameters || opt.options || {};
+    setup = opt.parameters || opt.options || ({} as any);
 
     return getStory(context);
   },
@@ -62,7 +64,10 @@ if (module && module.hot && module.hot.decline) {
 }
 
 // TODO: REMOVE at v6.0.0
-export const checkA11y = deprecate((...args: any[]) => withA11Y(...args), 'checkA11y has been replaced with withA11Y');
+export const checkA11y = deprecate(
+  (...args: any[]) => withA11Y(...args),
+  'checkA11y has been replaced with withA11Y'
+);
 
 // TODO: REMOVE at v6.0.0
 export const configureA11y = deprecate(
