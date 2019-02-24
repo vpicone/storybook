@@ -42,7 +42,7 @@ addDecorator(storyFn => (
 
 addParameters({
   a11y: {
-    configure: {},
+    config: {},
     options: {
       checks: { 'color-contrast': { options: { noScroll: true } } },
       restoreScroll: true,

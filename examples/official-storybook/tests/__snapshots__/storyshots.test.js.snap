@@ -2642,7 +2642,7 @@ exports[`Storyshots Core|Parameters passed to story 1`] = `
     "name": "Storybook"
   },
   "a11y": {
-    "configure": {},
+    "config": {},
     "options": {
       "checks": {
         "color-contrast": {
