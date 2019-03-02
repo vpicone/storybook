@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import { styled } from '@storybook/theming';
 
 import { STORY_RENDERED } from '@storybook/core-events';
-import { ActionBar, Icons } from '@storybook/components';
+import { ScrollArea, ActionBar, Icons } from '@storybook/components';
 
 import { AxeResults, Result } from 'axe-core';
 import { Report } from './Report';
@@ -135,19 +135,21 @@ export class A11YPanel extends Component<A11YPanelProps, A11YPanelState> {
 
     return active ? (
       <Fragment>
-        <Tabs
-          key="tabs"
-          tabs={[
-            {
-              label: <Violations>{violations.length} Violations</Violations>,
-              panel: <Report passes={false} items={violations} empty="No a11y violations found." />,
-            },
-            {
-              label: <Passes>{passes.length} Passes</Passes>,
-              panel: <Report passes items={passes} empty="No a11y check passed" />,
-            },
-          ]}
-        />
+        <ScrollArea vertical horizontal>
+          <Tabs
+            key="tabs"
+            tabs={[
+              {
+                label: <Violations>{violations.length} Violations</Violations>,
+                panel: <Report passes={false} items={violations} empty="No a11y violations found." />,
+              },
+              {
+                label: <Passes>{passes.length} Passes</Passes>,
+                panel: <Report passes items={passes} empty="No a11y check passed" />,
+              },
+            ]}
+          />
+        </ScrollArea>
         <ActionBar key="actionbar" actionItems={[{ title: actionTitle, onClick: this.request }]} />
       </Fragment>
     ) : null;
